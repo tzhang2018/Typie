@@ -9,10 +9,10 @@ on:
       testCases:
         description: Select which test case to run
         type: choice
+        default: 'all'
         options:
           - all
           - pim
-        default: 'all'
 jobs:
   test:
     timeout-minutes: 60
@@ -26,8 +26,10 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Print the input tag to STDOUT
+      run: echo  The tags are ${{ inputs.testCases }} 
     - name: Run Playwright tests
-      run: npx playwright test --grep ${{inputs.testCases}}
+      run: npx playwright test --grep ${{ inputs.testCases }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
