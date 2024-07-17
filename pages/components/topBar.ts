@@ -1,6 +1,6 @@
-import { PageObject } from "./PageObject";
+import { pageObject } from "./pageObject";
 
-export class TopBar extends PageObject {
+export class TopBar extends pageObject {
     public readonly hamburger = this.host.locator("css=oxd-topbar-header-hamburger");
     public readonly breadcrumb = this.host.locator("css=oxd-topbar-header-breadcrumb-module");
     public readonly userProfile = this.host.locator("//img[@class='oxd-userdropdown-img']");
