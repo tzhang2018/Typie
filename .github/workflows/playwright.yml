@@ -12,7 +12,7 @@ on:
         options:
           - all
           - pim
-        default: all
+        default: 'all'
 jobs:
   test:
     timeout-minutes: 60
