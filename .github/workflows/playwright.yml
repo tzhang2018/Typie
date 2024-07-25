@@ -13,7 +13,8 @@ on:
         default: 'all'
         options:
           - all
-          - pim
+          - api
+          - ui
 jobs:
   test:
     timeout-minutes: 60
@@ -30,7 +31,7 @@ jobs:
 
     - name: Run Playwright tests
       if: "${{ github.event.inputs.testCases != '' }}"
-      run: npx playwright test --grep ${{ inputs.testCases }}
+      run: npx playwright test --grep @${{ inputs.testCases }}
     - name: Run Playwright tests
       if: "${{ github.event.inputs.testCases == '' }}"
       run: npx playwright test
