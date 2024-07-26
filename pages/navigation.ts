@@ -1,4 +1,4 @@
-import { expect, Locator } from "@playwright/test";
+import { expect, Locator, TestInfo } from "@playwright/test";
 import { topBarHeader } from "./components/topBar";
 import { Page } from "./page";
 
@@ -24,10 +24,13 @@ export class NavigationPageEx extends Page {
     public readonly hamburger = this.page.locator(".oxd-topbar-header-title").locator('i');
 
     //Side panel
-    public readonly pim = this.page.locator("a[href*='viewPimModule']");
+    public readonly pim = this.page.getByRole('link', {name: 'PIM'});
 
-    //check mobile viewport or not
-    async gotoPim(isMobile:boolean) : Promise<NavigationPageEx> {
+    async gotoPim(isMobile: boolean) : Promise<NavigationPageEx> {
+        //Use Or operator to check for mobile viewport
+        //https://playwright.dev/docs/api/class-locator#locator-or
+        //However due the implementation of OrangeHRM it is not suitable
+        //Mobile layout, side menu is still visible with a width to be 0
         if(isMobile) {
             await this.hamburger.click();
         }

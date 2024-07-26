@@ -10,9 +10,7 @@ test.beforeEach(async({page})=> {
  });
  
 test("UI testing", {tag:["@all", "@ui"]}, async({page, isMobile})=>{
-    var nav = new NavigationPageEx(page);
-    
-    await nav 
+    await new NavigationPageEx(page) 
         .gotoPim(isMobile)
         .then(sut => sut.verifyHeaderBreadcrumb('PIM'));
 
