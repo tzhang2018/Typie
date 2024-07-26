@@ -14,12 +14,17 @@ export class topBarHeader extends pageObject {
 
 export class topBarBody extends pageObject {
     public readonly help = this.host.getByTitle("Help");
+    public readonly more = this.host.getByText('More');
 }
 
 export class employeeTopBarBody extends topBarBody {
     public readonly employeeList = this.host.getByText("Employee List");
 
     async gotoEmployeeList() {
+        //Under mobile viewport, might be hidden under "More..."
+        if(!await this.employeeList.isVisible({timeout: 2000})) {
+            await this.more.click();
+        }
         await this.employeeList.click();
     }
 }

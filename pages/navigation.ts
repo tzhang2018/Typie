@@ -20,10 +20,17 @@ export class NavigationPage extends Page {
 export class NavigationPageEx extends Page {
     //Header
     public readonly header = new topBarHeader(this.page.locator("//div[@class='oxd-topbar-header']"));
+    public readonly hamburger2 = this.page.locator('div').filter({ hasText: /^Dashboard$/ }).locator('i');
+    public readonly hamburger = this.page.locator(".oxd-topbar-header-title").locator('i');
+
     //Side panel
     public readonly pim = this.page.locator("a[href*='viewPimModule']");
 
-    async gotoPim() : Promise<NavigationPageEx> {
+    //check mobile viewport or not
+    async gotoPim(isMobile:boolean) : Promise<NavigationPageEx> {
+        if(isMobile) {
+            await this.hamburger.click();
+        }
         await this.pim.click();
         return this;
     }
