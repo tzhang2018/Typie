@@ -1,7 +1,7 @@
 import { request, test } from '@playwright/test'
 
 
-test.skip("API testing - GET", {tag:["@all, @api"]}, async({request})=>{
+test("API testing - GET", {tag:["@all, @api"]}, async({request})=>{
     await request.fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'get',    
         headers: {
@@ -15,7 +15,7 @@ test.skip("API testing - GET", {tag:["@all, @api"]}, async({request})=>{
         .then(json => console.log(json));
 });
 
-test.skip("API Testing - POST", {tag:["@all", "@api"]}, async({request})=> {
+test("API Testing - POST", {tag:["@all", "@api"]}, async({request})=> {
     await request.fetch('https://jsonplaceholder.typicode.com/posts', {
         method: 'post',
         headers: {

@@ -1,6 +1,7 @@
 import {test} from "@playwright/test";
 import { NavigationPageEx } from "../pages/navigation";
 import { LoginEx } from "../pages/login";
+import { pimPageEx } from "../pages/pimPage";
 
 test.beforeEach(async({page})=> {
     await new LoginEx(page)
@@ -8,14 +9,19 @@ test.beforeEach(async({page})=> {
         .then(sut => sut.loginAs("Admin", "admin123"));    
  });
  
-test.skip("UI testing", async({page}, testInfo)=>{
+test("UI testing", {tag:["@all", "@ui"]}, async({page}, testInfo)=>{
     await new NavigationPageEx(page)
         .gotoPim()
         .then(sut => sut.verifyHeaderBreadcrumb('PIM'));
+
+    await new pimPageEx(page)
+        .addEmployee()
+        .then(sut => sut.addDetails())
+        .then(sut => sut.gotoEmployeeList());
 });
 
 
 test.afterEach(async({page})=>{
-    await new NavigationPageEx(page).logout();
+    await new NavigationPageEx(page)
+        .logout();
 })
- 

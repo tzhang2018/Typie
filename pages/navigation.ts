@@ -1,4 +1,4 @@
-import { expect } from "@playwright/test";
+import { expect, Locator } from "@playwright/test";
 import { topBarHeader } from "./components/topBar";
 import { Page } from "./page";
 
@@ -12,11 +12,9 @@ export class NavigationPage extends Page {
         await this.pim.click();
     }
 
-    async getHeaderBreadcrumb() : Promise<string|null> {
-        return await this.header.getBreadcrumb();
+    async verifyHeaderBreadcrumb(expected: string) {
+        await expect(this.header.breadcrumb).toHaveText(expected);
     }
-
-    
 }
 
 export class NavigationPageEx extends Page {
@@ -30,12 +28,10 @@ export class NavigationPageEx extends Page {
         return this;
     }
 
-    async getHeaderBreadcrumb() : Promise<string|null> {
-        return await this.header.getBreadcrumb();
-    }
-
+    //Playwright prefer web-first assertion
+    //However, will need to put assertion into page object?  
     async verifyHeaderBreadcrumb(expected: string) : Promise<NavigationPageEx> {
-        expect(await this.getHeaderBreadcrumb()).toBe(expected);
+        await expect(this.header.breadcrumb).toHaveText(expected);
         return this;
     }
 

@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import { APIRequestBuilder } from '../apis/apiRequest';
 
-test.skip("API testing with style - GET",{tag:["@all, @api"]}, async({request})=>{
+test("API testing with style - GET",{tag:["@all, @api"]}, async({request})=>{
     const req = new APIRequestBuilder()
         .setUrl('https://jsonplaceholder.typicode.com/posts')
         .setMethod('GET')

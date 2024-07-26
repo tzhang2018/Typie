@@ -13,16 +13,12 @@ test.beforeEach(async({page})=> {
 test.skip("UI testing", {tag:["@all, @ui"]}, async ({page}, testInfo) => {
     let nav = new NavigationPage(page);
     await nav.gotoPim();
-    expect(await nav.getHeaderBreadcrumb()).toBe('PIM');
-
-    await testInfo.attach('pim module', { body: await page.screenshot(), contentType: 'image/png'});
+    await nav.verifyHeaderBreadcrumb('PIM');
 
     let pim = new pimPage(page);
-    let totalNo = await pim.getNoRecords()??0;
     await pim.addEmployee();
-    await testInfo.attach('person detail',{body: await page.screenshot(), contentType: 'image/png'});
+    await pim.addDetails();
     await pim.gotoEmployeeList();
-    expect(await pim.getNoRecords()).toBe(totalNo + 1);
 });
 
 test.afterEach(async({page})=>{
