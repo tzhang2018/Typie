@@ -16,6 +16,18 @@ on:
           - api
           - ui
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: This is to build
+      run: echo "THis is to build the project"
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: This is to deploy
+      run: echo "This is to deploy the app"
+
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest

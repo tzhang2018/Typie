@@ -4,6 +4,7 @@ import { Page } from "./page";
 import { employeeCardContainer } from "./components/cardContainer";
 import { employeeTopBarBody } from "./components/topBar";
 import { personalDetails } from "./components/personalDetails";
+import { testUser } from "../testdata/testUser";
 
 export class pimPage extends Page {
     public readonly employeeFilter = new tableFilter(this.page.locator(".oxd-table-filter"));
@@ -21,8 +22,8 @@ export class pimPage extends Page {
         await this.paperContainer.addRecord();
      }
 
-     async addDetails() {
-        await this.newEmployee.addDetails();
+     async addDetails(user: testUser) {
+        await this.newEmployee.addDetails(user);
         await this.page.waitForURL('**\/viewPersonalDetails\/empNumber\/**',{waitUntil:"networkidle"});
      }
 
@@ -53,13 +54,13 @@ export class pimPageEx extends Page {
         return this;
      }
 
-     async addDetails() : Promise<pimPageEx> {
-        await this.newEmployee.addDetails();
+     async addDetails(user: testUser) : Promise<pimPageEx> {
+        await this.newEmployee.addDetails(user);
         await this.page.waitForURL('**\/viewPersonalDetails\/empNumber\/**',{waitUntil:"networkidle"});
         return this;
      }
 
-     async addMoreDetails() : Promise<pimPageEx>{
+     async addMoreDetails(user: testUser) : Promise<pimPageEx>{
         return this;
      }
 

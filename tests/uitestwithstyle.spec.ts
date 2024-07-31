@@ -1,27 +1,33 @@
 import {test} from "@playwright/test";
 import { NavigationPageEx } from "../pages/navigation";
-import { LoginEx } from "../pages/login";
 import { pimPageEx } from "../pages/pimPage";
-
-test.beforeEach(async({page})=> {
-    await new LoginEx(page)
-        .goto()
-        .then(sut => sut.loginAs("Admin", "admin123"));
- });
+import { testUserBuilder } from "../testdata/testUser";
  
-test("UI testing", {tag:["@all", "@ui"]}, async({page, isMobile})=>{
+test("UI test", {tag:["@all", "@ui"]}, async({page, isMobile}, testInfo)=>{
+    //Test started already authenticated however need to go to base url again in test 
+    // can also authenticated one per worker process
+    page.goto('/');
     await new NavigationPageEx(page) 
         .gotoPim(isMobile)
         .then(sut => sut.verifyHeaderBreadcrumb('PIM'));
 
+    let user = new testUserBuilder()
+        .withLoginDetails()
+        .build();
+
     await new pimPageEx(page)
         .addEmployee()
-        .then(sut => sut.addDetails())
+        .then(sut => sut.addDetails(user))
         .then(sut => sut.gotoEmployeeList());
 });
 
 
-test.afterEach(async({page})=>{
-    await new NavigationPageEx(page)
-        .logout();
-})
+test.skip("playground", async({page})=>{
+    await page.goto('https://www.scrapethissite.com/pages/simple/');
+    await page.waitForLoadState("networkidle");
+
+    const countries = page.locator(`//h3[contains(normalize-space(),'Andorra')]/following-sibling::div/strong[1]`);
+    const name = await countries.evaluateAll(element => element.map(el => el.textContent?.trim()));
+    console.log(name);
+
+});

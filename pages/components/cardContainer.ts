@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { pageObject } from "./pageObject";
 import path from "path";
+import { testUser } from "../../testdata/testUser";
 
 export class cardContainer extends pageObject {
     public readonly save = this.host.getByRole("button", {name: "Save"});
@@ -23,19 +24,29 @@ export class employeeCardContainer extends cardContainer {
     public readonly passwordConfirm = this.host.locator('input[type="password"]').nth(1);
     public readonly passwordWarning = this.host.getByText("Passwords do not match");
 
-    async addDetails() {
-        await this.firstName.fill(faker.person.firstName());
-        await this.middleName.fill(faker.person.middleName());
-        await this.lastName.fill(faker.person.lastName());
+    async addDetails(user: testUser) {
+        await this.firstName.fill(user.givenName);
+
+        if(user.middleName != undefined)
+            await this.middleName.fill(String(user.middleName));
+        
+        await this.lastName.fill(user.lastName);
         await this.employeeId.clear();
         await this.profile.setInputFiles(path.join(__dirname, '../../testdata', 'fa.jpg'));
-        await this.includeLogin.click();
-        await this.userName.fill(faker.internet.userName());
-        let tempPassword = 'a0' + faker.internet.password({length:10});
-        await this.password.fill(tempPassword);
-        await this.passwordConfirm.fill(tempPassword);
-        await this.passwordWarning.waitFor({state:"hidden"});
+
+        if(user.withLogin) {
+            await this.includeLogin.click();
+            await this.userName.fill(String(user.loginUser));
+            await this.password.fill(String(user.loginPassword));
+            await this.passwordConfirm.fill(String(user.loginPassword));
+            await this.passwordWarning.waitFor({state:"hidden"});
+        }
+        
         await this.saveRecord();
+    }
+
+    async addLoginDetails() {
+
     }
 }
 
