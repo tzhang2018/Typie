@@ -62,11 +62,13 @@ jobs:
     if: always()
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v2
-      id: download
+      uses: actions/download-artifact@v4
+      with:
+        path: playwright-report
+
+    - run: ls -R playwright-report
 
     - name: Publish
-      if: always()
       uses: peaceiris/actions-gh-pages@v4
       with:
         external_repository: tzhang2018/Typie.reports
