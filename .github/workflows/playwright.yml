@@ -73,7 +73,7 @@ jobs:
       with:
         external_repository: tzhang2018/Typie.reports
         publish_branch: main
-        publish_dir: ./playwright-report
+        publish_dir: ./doc
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         keep_files: true
         user_name: "github-actions[bot]"
