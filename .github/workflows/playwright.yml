@@ -2,9 +2,9 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       testCases:
@@ -72,7 +72,7 @@ jobs:
       with:
         external_repository: tzhang2018/Typie.reports
         publish_branch: main
-        publish_dir: ${{steps.download.outputs.download-path}}
+        publish_dir: playwright-report
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         keep_files: true
         user_name: "github-actions[bot]"
