@@ -56,7 +56,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
-  publish test result:
+  publishTestResult:
     needs: [build, deploy, test]
     runs-on: ubuntu-latest
     if: always()
