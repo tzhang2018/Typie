@@ -64,13 +64,14 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
 
-    - run: ls -R ./
+    - run: ls -R ${{steps.download.outputs.download-path}}
 
     - name: Publish
       uses: peaceiris/actions-gh-pages@v4
       with:
         external_repository: tzhang2018/Typie.reports
         publish_branch: main
+        publish_dir: ${{steps.download.outputs.download-path}}
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         keep_files: true
         user_name: "github-actions[bot]"
