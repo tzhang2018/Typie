@@ -62,12 +62,12 @@ jobs:
     if: always()
     steps:
     - name: Download artifacts
-      users: actions/download-artifact@v2
+      uses: actions/download-artifact@v2
       id: download
 
     - name: Publish
       if: always()
-      users: peaceiris/actions-gh-pages@v4
+      uses: peaceiris/actions-gh-pages@v4
       with:
         external_repository: tzhang2018/Typie.reports
         publish_branch: main
