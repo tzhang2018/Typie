@@ -1,7 +1,7 @@
 import {test} from "@playwright/test";
-import { NavigationPageEx } from "../pages/navigation";
-import { pimPageEx } from "../pages/pimPage";
-import { testUserBuilder } from "../testdata/testUser";
+import { NavigationPageEx } from "./pages/navigation";
+import { pimPageEx } from "./pages/pimPage";
+import { testUserBuilder } from "./testdata/testUser";
  
 test("UI test", {tag:["@all", "@ui"]}, async({page, isMobile}, testInfo)=>{
     //Test started already authenticated however need to go to base url again in test 

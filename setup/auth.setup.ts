@@ -1,5 +1,5 @@
 import test from "@playwright/test";
-import { LoginEx } from "../pages/login";
+import { LoginEx } from "../orange_pom/pages/login";
 import path from "path";
 
 const authFile = '../playwright/.auth/user.json';

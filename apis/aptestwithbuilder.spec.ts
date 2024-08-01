@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import { APIRequestBuilder } from '../apis/apiRequest';
+import { APIRequestBuilder } from './apiRequest';
 
 test("API testing with style - GET",{tag:["@all, @api"]}, async({request})=>{
     const req = new APIRequestBuilder()
