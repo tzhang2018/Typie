@@ -5,8 +5,6 @@ run-name: Tests running on ${{github.ref_name}}
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       testCases:
@@ -22,14 +20,14 @@ jobs:
     name: 
     runs-on: ubuntu-latest
     steps:
-    - name: This is to build
-      run: echo "This is to build the project"
+      - name: This is to build
+        run: echo "This is to build the project"
 
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: This is to deploy
-      run: echo "This is to deploy the app"
+      - name: This is to deploy
+        run: echo "This is to deploy the app"
 
   test:
     timeout-minutes: 60
@@ -60,7 +58,7 @@ jobs:
           retention-days: 30
 
   publishTestResult:
-    needs: [build, deploy, test]
+    needs: [test]
     runs-on: ubuntu-latest
     if: always()
     steps:

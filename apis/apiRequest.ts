@@ -7,7 +7,7 @@ export class APIRequest {
     body?:string;
 }
 
-export class APIRequestBuilder {
+export class APIRequestBuilder { 
     private url: string = "https://httpbin.org/get";
     private method: string = "GET";
     private headers: {[name:string]:string} = {};
