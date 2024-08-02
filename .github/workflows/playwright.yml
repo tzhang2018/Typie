@@ -19,6 +19,7 @@ on:
           - ui
 jobs:
   build:
+    name: 
     runs-on: ubuntu-latest
     steps:
     - name: This is to build
@@ -35,47 +36,47 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, deploy]
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
-    - name: Run Playwright tests
-      if: "${{ github.event.inputs.testCases != '' }}"
-      run: npx playwright test --grep @${{ inputs.testCases }}
-    - name: Run Playwright tests
-      if: "${{ github.event.inputs.testCases == '' }}"
-      run: npx playwright test
+      - name: Run Playwright tests
+        if: "${{ github.event.inputs.testCases != '' }}"
+        run: npx playwright test --grep @${{ inputs.testCases }}
+      - name: Run Playwright tests
+        if: "${{ github.event.inputs.testCases == '' }}"
+        run: npx playwright test
 
-    - uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
 
   publishTestResult:
     needs: [build, deploy, test]
     runs-on: ubuntu-latest
     if: always()
     steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      id: download
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        id: download
 
-    - run: ls -R ${{steps.download.outputs.download-path}}
+      - run: ls -R ${{steps.download.outputs.download-path}}
 
-    - name: Publish
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        external_repository: tzhang2018/Typie.reports
-        publish_branch: main
-        publish_dir: playwright-report
-        personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        keep_files: true
-        user_name: "github-actions[bot]"
-        user_email: "github-actions[bot]@users.noreply.github.com"
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          external_repository: tzhang2018/Typie.reports
+          publish_branch: main
+          publish_dir: playwright-report
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          keep_files: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
