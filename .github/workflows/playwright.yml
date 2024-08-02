@@ -17,6 +17,13 @@ on:
           - all
           - api
           - ui
+      testProjects:
+        description: Select your project
+        type: choice
+        default: 'chromium'
+        options:
+          - chromium
+          - Mobile Chrome
 jobs:
   build:
     runs-on: ubuntu-latest
