@@ -1,6 +1,6 @@
 name: Playwright Tests
 
-run-name: ${{github.actor}} is running the test
+run-name: Tests running on ${{github.ref_name}}
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: This is to build
-      run: echo "THis is to build the project"
+      run: echo "This is to build the project"
 
   deploy:
     runs-on: ubuntu-latest

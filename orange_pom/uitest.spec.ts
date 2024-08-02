@@ -8,6 +8,9 @@ test.skip("UI testing", {tag:["@all, @ui"]}, async ({page}) => {
     let user = new testUserBuilder()
         .withLoginDetails()
         .build();
+    //Test started already authenticated however need to go to base url again in test 
+    // can also authenticated one per worker process
+    page.goto('/');
 
     let nav = new NavigationPage(page);
     await nav.gotoPim();

@@ -4,16 +4,17 @@ import { pimPageEx } from "./pages/pimPage";
 import { testUserBuilder } from "./testdata/testUser";
  
 test("UI test", {tag:["@all", "@ui"]}, async({page, isMobile}, testInfo)=>{
-    //Test started already authenticated however need to go to base url again in test 
-    // can also authenticated one per worker process
-    page.goto('/');
-    await new NavigationPageEx(page) 
-        .gotoPim(isMobile)
-        .then(sut => sut.verifyHeaderBreadcrumb('PIM'));
-
     let user = new testUserBuilder()
         .withLoginDetails()
         .build();
+
+    //Test started already authenticated however need to go to base url again in test 
+    // can also authenticated one per worker process
+    page.goto('/');
+
+    await new NavigationPageEx(page) 
+        .gotoPim(isMobile)
+        .then(sut => sut.verifyHeaderBreadcrumb('PIM'));
 
     await new pimPageEx(page)
         .addEmployee()
@@ -31,3 +32,4 @@ test.skip("playground", async({page})=>{
     console.log(name);
 
 });
+
