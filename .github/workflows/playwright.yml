@@ -78,3 +78,29 @@ jobs:
           keep_files: true
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
+
+  visualComparisonTesting:
+    uses: ./.github/workflows/testblock.yml
+    with:
+      subset: subset-visual-comparison
+
+  publishSubsetResult:
+    needs: [visualComparisonTesting]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        id: ssdownload
+      - name: Publish Subset Results
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          external_repository: tzhang2018/Typie.reports
+          publish_branch: main
+          publish_dir: ${{steps.download.outputs.download-path}}
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          keep_files: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+
+
