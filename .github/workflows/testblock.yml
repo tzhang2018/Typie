@@ -29,7 +29,6 @@ jobs:
         continue-on-error: true
         working-directory: ${{ inputs.subset }}
         run: |
-          npx playwright install
           HOME=/root npx playwright test
       - uses: actions/upload-artifact@v4
         if: always()
