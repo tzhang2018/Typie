@@ -35,6 +35,3 @@ jobs:
         with:
           name: ${{ inputs.subset }}
           path: playwright-report/
-
-
-

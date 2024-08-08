@@ -88,6 +88,11 @@ jobs:
     with:
       subset: subset-visual-comparison
 
+  mockAPITesting:
+    uses: ./.github/workflows/testblock.yml
+    with:
+      subset: subset-basic
+
   publishSubsetResult:
     if: ${{ always() }}
     needs: [visualComparisonTesting]
