@@ -95,7 +95,7 @@ jobs:
 
   publishSubsetResult:
     if: ${{ always() }}
-    needs: [visualComparisonTesting]
+    needs: [visualComparisonTesting, mockAPITesting]
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
