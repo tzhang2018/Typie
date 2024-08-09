@@ -28,10 +28,13 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    environment: 
+      name: dev
+      url: https://dev.com
     needs: build
     steps:
       - name: This is to deploy
-        run: echo "This is to deploy the app"
+        run: echo "This is to deploy the app to ${{ vars.TOTALLY_REAL_WEBAPP}}"
 
   test:
     timeout-minutes: 60
