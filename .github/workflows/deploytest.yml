@@ -9,6 +9,9 @@ on:
       workflow_testCases:
         required: false
         type: string
+    secrets:
+      token:
+        required: true
 
 jobs:
   deploy:
@@ -65,7 +68,7 @@ jobs:
           external_repository: tzhang2018/Typie.reports
           publish_branch: main
           publish_dir: playwright-report
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          personal_token: ${{ secrets.token }}
           keep_files: true
           user_name: "github-actions[bot]"
           user_email: "github-actions[bot]@users.noreply.github.com"
