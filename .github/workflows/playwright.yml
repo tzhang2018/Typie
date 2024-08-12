@@ -24,18 +24,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: This is to build
-        run: echo "This is to build the project"
+        run: echo "This is to build the project ${{ env.testCases}}"
 
   dev:
     needs: build
     uses: ./.github/workflows/deploytest.yml
     with:
       workflow_environment: dev
-      testCases: ${{ env.testCases }}
+      workflow_testCases: ${{ inputs.testCases == null && 'all' || inputs.testCases}}
 
   uat:
     needs: dev
     uses: ./.github/workflows/deploytest.yml
     with:
       workflow_environment: uat
-      testCases: ${{ env.testCases }}
+      workflow_testCases: ${{ inputs.testCases == null && 'all' || inputs.testCases}}
