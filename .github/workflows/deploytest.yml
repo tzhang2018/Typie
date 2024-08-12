@@ -1,0 +1,71 @@
+name: Deploy and Test
+
+on:
+  workflow_call:
+    inputs:
+      workflow_environment:
+        required: true
+        type: string
+      testCases:
+        required: false
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ inputs.workflow_environment }}
+      url: ${{ vars.TOTALLY_REAL_WEBAPP}}
+    steps:
+      - name: This is to deploy
+        run: echo "This is to deploy the app to ${{ vars.TOTALLY_REAL_WEBAPP}}"
+    
+  test:
+    timeout-minutes: 60
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test --grep @${{ inputs.testCases }}
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  publishTestResult:
+    if: ${{ always() }}
+    needs: test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        id: download
+
+      - run: ls -R ${{steps.download.outputs.download-path}}
+
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          external_repository: tzhang2018/Typie.reports
+          publish_branch: main
+          publish_dir: playwright-report
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          keep_files: true
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
