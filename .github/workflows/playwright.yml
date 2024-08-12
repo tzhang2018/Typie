@@ -39,3 +39,5 @@ jobs:
     with:
       workflow_environment: uat
       workflow_testCases: ${{ inputs.testCases == null && 'all' || inputs.testCases}}
+    secrets:
+      token: ${{ secrets.PERSONAL_TOKEN }}
