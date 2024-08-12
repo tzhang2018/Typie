@@ -26,99 +26,16 @@ jobs:
       - name: This is to build
         run: echo "This is to build the project"
 
-  deploy:
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: This is to deploy
-        run: echo "This is to deploy the app to ${{ vars.TOTALLY_REAL_WEBAPP}}"
-
-  deployUAT:
-    runs-on: ubuntu-latest
-    environment: uat
-    needs: deploy
-    steps:
-      - name: This is to deploy
-        run: echo "This is to deploy the app to ${{ vars.TOTALLY_REAL_WEBAPP}}"
-
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    needs: [build, deploy]
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: npx playwright test --grep @${{ env.testCases }}
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ always() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
-
-  publishTestResult:
-    if: ${{ always() }}
-    needs: test
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        id: download
-
-      - run: ls -R ${{steps.download.outputs.download-path}}
-
-      - name: Publish
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          external_repository: tzhang2018/Typie.reports
-          publish_branch: main
-          publish_dir: playwright-report
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          keep_files: true
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
-
-  visualComparisonTesting:
-    uses: ./.github/workflows/testblock.yml
+  dev:
+    needs: build
+    uses: ./.github/workflows/deploytest.yml
     with:
-      subset: subset-visual-comparison
+      workflow_environment: dev
+      testCases: ${{ env.testCases }}
 
-  mockAPITesting:
-    uses: ./.github/workflows/testblock.yml
+  uat:
+    needs: dev
+    uses: ./.github/workflows/deploytest.yml
     with:
-      subset: subset-basic
-
-  publishSubsetResult:
-    if: ${{ always() }}
-    needs: [visualComparisonTesting, mockAPITesting]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-        id: ssdownload
-
-      - name: Publish Subset Results
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          external_repository: tzhang2018/Typie.reports
-          publish_branch: main
-          publish_dir: ${{steps.ssdownload.outputs.download-path}}
-          personal_token: ${{ secrets.PERSONAL_TOKEN }}
-          keep_files: true
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
-
-
+      workflow_environment: uat
+      testCases: ${{ env.testCases }}
