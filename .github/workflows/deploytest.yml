@@ -46,7 +46,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: playwright-report
+          name: playwright-report-${{ inputs.workflow_environment}}
           path: playwright-report/
           retention-days: 30
 
@@ -67,7 +67,7 @@ jobs:
         with:
           external_repository: tzhang2018/Typie.reports
           publish_branch: main
-          publish_dir: playwright-report
+          publish_dir: playwright-report-${{ inputs.workflow_environment}}
           personal_token: ${{ secrets.token }}
           keep_files: true
           user_name: "github-actions[bot]"
