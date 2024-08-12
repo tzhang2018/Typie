@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: This is to build
-        run: echo "This is to build the project ${{ env.testCases}}"
+        run: echo "This is to build the project."
 
   dev:
     needs: build
