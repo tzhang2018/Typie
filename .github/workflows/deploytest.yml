@@ -30,6 +30,9 @@ jobs:
     timeout-minutes: 60
     needs: deploy
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: [chromium, Mobile Chrome]
     steps:
       - uses: actions/checkout@v4
 
@@ -44,7 +47,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test --grep @${{ inputs.workflow_testCases }}
+        run: npx playwright test --project='${{matrix.project}}' --grep @${{ inputs.workflow_testCases }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
