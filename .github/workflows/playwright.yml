@@ -16,9 +16,6 @@ on:
           - api
           - ui
 
-env:
-  testCases: ${{ inputs.testCases == null && 'all' || inputs.testCases}}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,6 +24,7 @@ jobs:
         run: echo "This is to build the project."
 
   dev:
+    needs: build
     runs-on: ubuntu-latest
     environment: 
       name: dev
