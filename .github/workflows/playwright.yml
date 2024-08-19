@@ -39,5 +39,6 @@ jobs:
     with:
       workflow_environment: uat
       workflow_testCases: ${{ inputs.testCases == null && 'all' || inputs.testCases}}
+      workflow_url: ${{ vars.TOTALLY_REAL_WEBAPP }}
     secrets:
       token: ${{ secrets.PERSONAL_TOKEN }}
