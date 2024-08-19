@@ -21,7 +21,7 @@ jobs:
       url: ${{ vars.TOTALLY_REAL_WEBAPP}}
     steps:
       - name: This is to deploy
-        run: echo "This is to deploy the app to ${{ vars.TOTALLY_REAL_WEBAPP}}"
+        run: echo "This is to deploy the app"
     
   test:
     timeout-minutes: 60
@@ -50,7 +50,7 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-  publishTestResult:
+  publish:
     if: ${{ always() }}
     needs: test
     runs-on: ubuntu-latest

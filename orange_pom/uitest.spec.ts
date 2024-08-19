@@ -23,3 +23,11 @@ test.skip("UI testing", {tag:["@all, @ui"]}, async ({page}) => {
     await pim.gotoEmployeeList();
 });
 
+
+
+
+
+const stringFormat = (str: string, ...args: any[]) =>
+    str.replace(/{(\d+)}/g, (match, index) => args[index].toString() || "");
+
+console.log(stringFormat("Hello {0} {1} {2}", "World", "!!!", "again"));
