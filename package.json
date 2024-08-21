@@ -15,7 +15,9 @@
     "csvtojson": "^2.0.10"
   },
   "dependencies": {
+    "csv-parse": "^5.5.6",
     "dotenv": "^16.4.5",
+    "faker": "^6.6.6",
     "ts-node": "^10.9.2"
   }
 }
